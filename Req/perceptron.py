@@ -22,10 +22,6 @@ def load_digits_data():
     return ((x_train, y_train), (x_test, y_test))
 
 
-def sigmoid(X):
-    return 1/(1+np.exp(X))
-
-
 def leakyReLU(X):
     return np.where(X >= 0, X, X * 0.01)
 
@@ -215,12 +211,3 @@ class LeakyReLUSoftmaxCCE(MLP):
             history['test_loss'].append(self.loss(x_test, y_test))
 
         return history
-
-
-class SigmoidLS(MLP):
-
-    def __init__(self, in_shape, out_shape, layer_sizes):
-        super().__init__(in_shape, out_shape, sigmoid, sigmoid, layer_sizes)
-    
-    def loss(self, X, Y):
-        return np.mean(np.linalg.norm(self.predict(X) - Y, axis=1))
