@@ -1,35 +1,4 @@
 import numpy as np
-import tensorflow as tf
-
-
-def load_fashion_data():
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.fashion_mnist.load_data()  # noqa E501
-    x_train = x_train.astype('float32') / 255
-    x_test = x_test.astype('float32') / 255
-    # convert labels to categorical samples
-    y_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
-    y_test = tf.keras.utils.to_categorical(y_test, num_classes=10)
-    return ((x_train, y_train), (x_test, y_test))
-
-
-def load_digits_data():
-    (x_train, y_train), (x_test, y_test) = tf.keras.datasets.mnist.load_data()
-    x_train = x_train.astype('float32') / 255
-    x_test = x_test.astype('float32') / 255
-    # convert labels to categorical samples
-    y_train = tf.keras.utils.to_categorical(y_train, num_classes=10)
-    y_test = tf.keras.utils.to_categorical(y_test, num_classes=10)
-    return ((x_train, y_train), (x_test, y_test))
-
-
-def leakyReLU(X):
-    return np.where(X >= 0, X, X * 0.01)
-
-
-def softmax(X):
-    """Compute softmax values for each sets of scores in x."""
-    e_x = np.exp(X - np.max(X, axis=1, keepdims=True))
-    return e_x / np.sum(e_x, axis=1, keepdims=True)
 
 
 class MLP:
@@ -84,6 +53,16 @@ class MLP:
         return pre_act, post_act
 
 
+def leakyReLU(X):
+    return np.where(X >= 0, X, X * 0.01)
+
+
+def softmax(X):
+    """Compute softmax values for each sets of scores in x."""
+    e_x = np.exp(X - np.max(X, axis=1, keepdims=True))
+    return e_x / np.sum(e_x, axis=1, keepdims=True)
+
+
 class LeakyReLUSoftmaxCCE(MLP):
 
     def __init__(self, in_shape, out_shape, layer_sizes):
@@ -92,7 +71,7 @@ class LeakyReLUSoftmaxCCE(MLP):
     def loss(self, X, Y):
         return -np.mean(np.log(self.predict(X)[Y != 0]))
 
-    def gd_train(self, x_train, y_train, learning_rate, epochs, x_test, y_test):  # noqa E501
+    def gd_train(self, x_train, y_train, learning_rate, epochs, x_test, y_test):
         return self.sgd_train(x_train, y_train, learning_rate, epochs,
                               x_train.shape[0], x_test, y_test)
 
