@@ -17,7 +17,7 @@ for trial in range(1, 4):
     mlp1 = LeakyReLUSoftmaxCCE((28, 28), 10, [16, 16, 16])
 
     start = time()
-    history1 = mlp1.gd_train(x_train, y_train, 1e-1, 1000, x_test, y_test)
+    history1 = mlp1.momentum_sgd_train(x_train, y_train, 1e-2, 1000, 32, x_test, y_test, 0.9)
     end = time()
 
     stop = (np.argmax(history1['test_accuracy']), max(history1['test_accuracy']))
@@ -29,7 +29,7 @@ for trial in range(1, 4):
     plt.ylabel('Cross Entropy')
     plt.xlabel('Epoch')
     plt.legend()
-    plt.savefig('figures/' + str(trial) + 'lgde-1.png')
+    plt.savefig('figures/' + str(trial) + 'lmsgde-2.png')
     plt.clf()
 
     thresh60 = None
@@ -50,7 +50,7 @@ for trial in range(1, 4):
             thresh80 = (i, a)
             break
 
-    lines.append('------Learning Rate 1e-1------')
+    lines.append('------Learning Rate 1e-2------')
     lines.append(f'{round(end-start)} seconds elapsed ({round((end-start)/1000, 2)} seconds per epoch)')
     if thresh60 is not None:
         lines.append(f'60% Threshold passed after epoch {thresh60[0]} ({round(100*thresh60[1], 3)}%)')
@@ -79,13 +79,13 @@ for trial in range(1, 4):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend()
-    plt.savefig('figures/' + str(trial) + 'agde-1.png')
+    plt.savefig('figures/' + str(trial) + 'amsgde-2.png')
     plt.clf()
 
     mlp2 = LeakyReLUSoftmaxCCE((28, 28), 10, [16, 16, 16])
 
     start = time()
-    history2 = mlp2.gd_train(x_train, y_train, 1e-3, 1000, x_test, y_test)
+    history2 = mlp2.momentum_sgd_train(x_train, y_train, 1e-3, 1000, 32, x_test, y_test, 0.9)
     end = time()
 
     stop = (np.argmax(history2['test_accuracy']), max(history2['test_accuracy']))
@@ -97,7 +97,7 @@ for trial in range(1, 4):
     plt.ylabel('Cross Entropy')
     plt.xlabel('Epoch')
     plt.legend()
-    plt.savefig('figures/' + str(trial) + 'lgde-3.png')
+    plt.savefig('figures/' + str(trial) + 'lmsgde-3.png')
     plt.clf()
 
     thresh60 = None
@@ -148,13 +148,13 @@ for trial in range(1, 4):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend()
-    plt.savefig('figures/' + str(trial) + 'agde-3.png')
+    plt.savefig('figures/' + str(trial) + 'amsgde-3.png')
     plt.clf()
 
     mlp3 = LeakyReLUSoftmaxCCE((28, 28), 10, [16, 16, 16])
 
     start = time()
-    history3 = mlp3.gd_train(x_train, y_train, 1e-5, 1000, x_test, y_test)
+    history3 = mlp3.momentum_sgd_train(x_train, y_train, 1e-5, 1000, 32, x_test, y_test, 0.9)
     end = time()
 
     stop = (np.argmax(history3['test_accuracy']), max(history3['test_accuracy']))
@@ -166,7 +166,7 @@ for trial in range(1, 4):
     plt.ylabel('Cross Entropy')
     plt.xlabel('Epoch')
     plt.legend()
-    plt.savefig('figures/' + str(trial) + 'lgde-5.png')
+    plt.savefig('figures/' + str(trial) + 'lmsgde-5.png')
     plt.clf()
 
     thresh60 = None
@@ -217,8 +217,8 @@ for trial in range(1, 4):
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend()
-    plt.savefig('figures/' + str(trial) + 'agde-5.png')
+    plt.savefig('figures/' + str(trial) + 'amsgde-5.png')
     plt.clf()
 
-with open('output/gradient_descent.txt', 'w') as f:
+with open('output/momentum.txt', 'w') as f:
     f.write('\n'.join(lines))
