@@ -4,7 +4,6 @@ import numpy as np
 class MLP:
     def __init__(self, in_shape, out_shape, layer_activation,
                  output_activation, layer_sizes):
-        """Use Glorot initialisation"""
         i, j = np.prod(in_shape), layer_sizes[0]
         self.weights = [np.random.randn(i, j)*np.sqrt(2/(i+j))]
         self.biases = [np.zeros(j)]
@@ -274,6 +273,10 @@ class LeakyReLUSoftmaxCCE(MLP):
                    'test_loss': [self.loss(x_test, y_test)]}
         n = y_train.shape[0]
         indices = np.arange(n)
+
+        gradW2 = [np.zeros_like(W) for W in self.weights]
+        gradb2 = [np.zeros_like(b) for b in self.biases]
+
         for _ in range(epochs):
             np.random.shuffle(indices)
             batch_indices = []
@@ -285,8 +288,6 @@ class LeakyReLUSoftmaxCCE(MLP):
             batches = [(x_train[idx], y_train[idx])
                        for idx in batch_indices]
 
-            gradW2 = [np.zeros_like(W) for W in self.weights]
-            gradb2 = [np.zeros_like(b) for b in self.biases]
             for X, Y in batches:
                 N = len(X)
                 nabla_W = [None for W in self.weights]
@@ -319,7 +320,7 @@ class LeakyReLUSoftmaxCCE(MLP):
 
         return history
 
-    def RMSProp_train(self, x_train, y_train, learning_rate, epochs,
+    def rmsprop_train(self, x_train, y_train, learning_rate, epochs,
                       eps, gamma, batch_size, x_test, y_test):
 
         layers = self.num_hidden_layers
@@ -329,6 +330,8 @@ class LeakyReLUSoftmaxCCE(MLP):
                    'test_loss': [self.loss(x_test, y_test)]}
         n = y_train.shape[0]
         indices = np.arange(n)
+        gradW2 = [np.zeros_like(W) for W in self.weights]
+        gradb2 = [np.zeros_like(b) for b in self.biases]
         for _ in range(epochs):
             np.random.shuffle(indices)
             batch_indices = []
@@ -340,8 +343,6 @@ class LeakyReLUSoftmaxCCE(MLP):
             batches = [(x_train[idx], y_train[idx])
                        for idx in batch_indices]
 
-            gradW2 = [np.zeros_like(W) for W in self.weights]
-            gradb2 = [np.zeros_like(b) for b in self.biases]
             for X, Y in batches:
                 N = len(X)
                 nabla_W = [None for W in self.weights]
@@ -362,10 +363,10 @@ class LeakyReLUSoftmaxCCE(MLP):
                 gradW2 = [gamma*gw2 + (1-gamma)*nw**2 for gw2, nw in zip(gradW2, nabla_W)]
                 gradb2 = [gamma*gb2 + (1-gamma)*nb**2 for gb2, nb in zip(gradb2, nabla_b)]
 
-                self.weights = [W - (learning_rate/np.sqrt(gw+eps))*nW for W, gw, nW
-                                in zip(self.weights, gradW, nabla_W)]
-                self.biases = [b - (learning_rate/np.sqrt(gb+eps))*nb for b, gb, nb
-                               in zip(self.biases, gradb, nabla_b)]
+                self.weights = [W - (learning_rate/np.sqrt(gw2+eps))*nW for W, gw2, nW
+                                in zip(self.weights, gradW2, nabla_W)]
+                self.biases = [b - (learning_rate/np.sqrt(gb2+eps))*nb for b, gb2, nb
+                               in zip(self.biases, gradb2, nabla_b)]
 
             history['train_accuracy'].append(self.accuracy(x_train, y_train))
             history['train_loss'].append(self.loss(x_train, y_train))
@@ -384,6 +385,11 @@ class LeakyReLUSoftmaxCCE(MLP):
                    'test_loss': [self.loss(x_test, y_test)]}
         n = y_train.shape[0]
         indices = np.arange(n)
+        t = 0
+        gradW1 = [np.zeros_like(W) for W in self.weights]
+        gradb1 = [np.zeros_like(b) for b in self.biases]
+        gradW2 = [np.zeros_like(W) for W in self.weights]
+        gradb2 = [np.zeros_like(b) for b in self.biases]
         for _ in range(epochs):
             np.random.shuffle(indices)
             batch_indices = []
@@ -395,11 +401,8 @@ class LeakyReLUSoftmaxCCE(MLP):
             batches = [(x_train[idx], y_train[idx])
                        for idx in batch_indices]
 
-            gradW1 = [np.zeros_like(W) for W in self.weights]
-            gradb1 = [np.zeros_like(b) for b in self.biases]
-            gradW2 = [np.zeros_like(W) for W in self.weights]
-            gradb2 = [np.zeros_like(b) for b in self.biases]
             for X, Y in batches:
+                t += 1
                 N = len(X)
                 nabla_W = [None for W in self.weights]
                 nabla_b = [None for b in self.biases]
@@ -416,15 +419,15 @@ class LeakyReLUSoftmaxCCE(MLP):
                     nabla_W[-i] = (post_act[-i-1].T@delta)/N
                     nabla_b[-i] = delta.mean(axis=0)
 
-                gradW1 = [(beta1/(1-beta1))*gw1 + nw for gw1, nw in zip(gradW1, nabla_W)]
-                gradb1 = [(beta1/(1-beta1))*gb1 + nb for gb1, nb in zip(gradb1, nabla_b)]
-                gradW2 = [(beta2/(1-beta2))*gw2 + nw**2 for gw2, nw in zip(gradW2, nabla_W)]
-                gradb2 = [(beta2/(1-beta2))*gb2 + nb**2 for gb2, nb in zip(gradb2, nabla_b)]
+                gradW1 = [beta1*gw1 + (1-beta1)*nw for gw1, nw in zip(gradW1, nabla_W)]
+                gradb1 = [beta1*gb1 + (1-beta1)*nb for gb1, nb in zip(gradb1, nabla_b)]
+                gradW2 = [beta2*gw2 + (1-beta2)*nw**2 for gw2, nw in zip(gradW2, nabla_W)]
+                gradb2 = [beta2*gb2 + (1-beta2)*nb**2 for gb2, nb in zip(gradb2, nabla_b)]
 
-                self.weights = [W - (learning_rate/np.sqrt(gw2+eps))*gw1 for W, gw2, gw1
-                                in zip(self.weights, gradW2, gradW1)]
-                self.biases = [b - (learning_rate/np.sqrt(gb2+eps))*gb1 for b, gb2, gb1
-                               in zip(self.biases, gradb2, gradb1)]
+                self.weights = [W - learning_rate*(np.sqrt(1-beta2**t)/(1-beta1**t))*(gw1/(np.sqrt(gw2)+eps)) for W, gw1, gw2
+                                in zip(self.weights, gradW1, gradW2)]
+                self.biases = [b - learning_rate*(np.sqrt(1-beta2**t)/(1-beta1**t))*(gb1/(np.sqrt(gb2)+eps)) for b, gb1, gb2
+                               in zip(self.biases, gradb1, gradb2)]
 
             history['train_accuracy'].append(self.accuracy(x_train, y_train))
             history['train_loss'].append(self.loss(x_train, y_train))
@@ -470,9 +473,9 @@ class LeakyReLUSoftmaxCCE(MLP):
                     nabla_W[-i] = (post_act[-i-1].T@delta)/N
                     nabla_b[-i] = delta.mean(axis=0)
 
-                self.weights = [W - learning_rate*(nW+(np.sqrt((1+t)**-gamma)*np.random.randn(*nW.shape)))
+                self.weights = [W - learning_rate*nW+np.sqrt(learning_rate/((1+t)**gamma))*np.random.randn(*nW.shape)
                                 for W, nW in zip(self.weights, nabla_W)]
-                self.biases = [b - learning_rate*(nb+(np.sqrt((1+t)**-gamma)*np.random.randn(len(b))))
+                self.biases = [b - learning_rate*nb+np.sqrt(learning_rate/((1+t)**gamma))*np.random.randn(len(b))
                                for b, nb in zip(self.biases, nabla_b)]
 
             history['train_accuracy'].append(self.accuracy(x_train, y_train))

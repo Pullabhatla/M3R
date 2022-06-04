@@ -1,0 +1,63 @@
+-------
+Trial 1
+-------
+------Learning Rate 1e-2------
+3337 seconds elapsed (3.34 seconds per epoch)
+60% Threshold passed after epoch 1 (81.84%)
+70% Threshold passed after epoch 1 (81.84%)
+80% Threshold passed after epoch 1 (81.84%)
+Maximal Test Accuracy is reached after epoch 41 (86.69%)
+-----Learning Rate 1e-3------
+3392 seconds elapsed (3.39 seconds per epoch)
+60% Threshold passed after epoch 1 (75.62%)
+70% Threshold passed after epoch 1 (75.62%)
+80% Threshold passed after epoch 2 (80.7%)
+Maximal Test Accuracy is reached after epoch 94 (87.34%)
+-----Learning Rate 1e-5------
+3253 seconds elapsed (3.25 seconds per epoch)
+60% Threshold passed after epoch 21 (60.96%)
+70% Threshold passed after epoch 46 (70.22%)
+80% Threshold passed after epoch 140 (80.04%)
+Maximal Test Accuracy is reached after epoch 952 (85.45%)
+-------
+Trial 2
+-------
+------Learning Rate 1e-2------
+3296 seconds elapsed (3.3 seconds per epoch)
+60% Threshold passed after epoch 1 (82.85%)
+70% Threshold passed after epoch 1 (82.85%)
+80% Threshold passed after epoch 1 (82.85%)
+Maximal Test Accuracy is reached after epoch 39 (86.69%)
+-----Learning Rate 1e-3------
+3300 seconds elapsed (3.3 seconds per epoch)
+60% Threshold passed after epoch 1 (78.28%)
+70% Threshold passed after epoch 1 (78.28%)
+80% Threshold passed after epoch 2 (81.12%)
+Maximal Test Accuracy is reached after epoch 145 (86.69%)
+-----Learning Rate 1e-5------
+3287 seconds elapsed (3.29 seconds per epoch)
+60% Threshold passed after epoch 26 (60.83%)
+70% Threshold passed after epoch 58 (70.02%)
+80% Threshold passed after epoch 142 (80.06%)
+Maximal Test Accuracy is reached after epoch 969 (85.78%)
+-------
+Trial 3
+-------
+------Learning Rate 1e-2------
+3239 seconds elapsed (3.24 seconds per epoch)
+60% Threshold passed after epoch 1 (82.58%)
+70% Threshold passed after epoch 1 (82.58%)
+80% Threshold passed after epoch 1 (82.58%)
+Maximal Test Accuracy is reached after epoch 64 (86.86%)
+-----Learning Rate 1e-3------
+3328 seconds elapsed (3.33 seconds per epoch)
+60% Threshold passed after epoch 1 (74.88%)
+70% Threshold passed after epoch 1 (74.88%)
+80% Threshold passed after epoch 2 (80.29%)
+Maximal Test Accuracy is reached after epoch 120 (86.74%)
+-----Learning Rate 1e-5------
+3254 seconds elapsed (3.25 seconds per epoch)
+60% Threshold passed after epoch 31 (60.53%)
+70% Threshold passed after epoch 63 (70.23%)
+80% Threshold passed after epoch 158 (80.01%)
+Maximal Test Accuracy is reached after epoch 980 (84.99%)

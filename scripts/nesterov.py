@@ -17,7 +17,7 @@ for trial in range(1, 4):
     mlp1 = LeakyReLUSoftmaxCCE((28, 28), 10, [16, 16, 16])
 
     start = time()
-    history1 = mlp1.nesterov_sgd_train(x_train, y_train, 1e-1, 1000, 32, x_test, y_test, 0.9)
+    history1 = mlp1.nesterov_sgd_train(x_train, y_train, 1e-2, 1000, 32, x_test, y_test, 0.9)
     end = time()
 
     stop = (np.argmax(history1['test_accuracy']), max(history1['test_accuracy']))
@@ -25,11 +25,11 @@ for trial in range(1, 4):
     plt.plot(history1['train_loss'], label='Train')
     plt.plot(history1['test_loss'], label='Test')
     plt.axvline(stop[0], linestyle='--', color='black', label='Best Test')
-    plt.title(r'$\eta{}=10^{-1}$')
+    plt.title(r'$\eta{}=10^{-2}$')
     plt.ylabel('Cross Entropy')
     plt.xlabel('Epoch')
     plt.legend()
-    plt.savefig('figures/' + str(trial) + 'lnsgde-1.png')
+    plt.savefig('figures/' + str(trial) + 'lnsgde-2.png')
     plt.clf()
 
     thresh60 = None
@@ -50,7 +50,7 @@ for trial in range(1, 4):
             thresh80 = (i, a)
             break
 
-    lines.append('------Learning Rate 1e-1------')
+    lines.append('------Learning Rate 1e-2------')
     lines.append(f'{round(end-start)} seconds elapsed ({round((end-start)/1000, 2)} seconds per epoch)')
     if thresh60 is not None:
         lines.append(f'60% Threshold passed after epoch {thresh60[0]} ({round(100*thresh60[1], 3)}%)')
@@ -75,11 +75,11 @@ for trial in range(1, 4):
     plt.plot(history1['train_accuracy'], label='Train')
     plt.plot(history1['test_accuracy'], label='Test')
     plt.axvline(stop[0], linestyle='--', color='black', label='Best Test')
-    plt.title(r'$\eta{}=10^{-1}$')
+    plt.title(r'$\eta{}=10^{-2}$')
     plt.ylabel('Accuracy')
     plt.xlabel('Epoch')
     plt.legend()
-    plt.savefig('figures/' + str(trial) + 'ansgde-1.png')
+    plt.savefig('figures/' + str(trial) + 'ansgde-2.png')
     plt.clf()
 
     mlp2 = LeakyReLUSoftmaxCCE((28, 28), 10, [16, 16, 16])

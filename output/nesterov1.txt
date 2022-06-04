@@ -1,0 +1,1 @@
+The maximal test accuracy of 87.1% is achieved with a momentum of 0.9 after 84 epochs.
