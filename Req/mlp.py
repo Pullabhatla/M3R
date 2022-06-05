@@ -445,6 +445,7 @@ class LeakyReLUSoftmaxCCE(MLP):
                    'test_loss': [self.loss(x_test, y_test)]}
         n = y_train.shape[0]
         indices = np.arange(n)
+        t = 0
         for _ in range(epochs):
             np.random.shuffle(indices)
             batch_indices = []
@@ -456,7 +457,8 @@ class LeakyReLUSoftmaxCCE(MLP):
             batches = [(x_train[idx], y_train[idx])
                        for idx in batch_indices]
 
-            for t, (X, Y) in enumerate(batches):
+            for X, Y in batches:
+                t += 1
                 N = len(X)
                 nabla_W = [None for W in self.weights]
                 nabla_b = [None for b in self.biases]
