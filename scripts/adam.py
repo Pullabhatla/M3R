@@ -85,7 +85,7 @@ for trial in range(1, 4):
     mlp2 = LeakyReLUSoftmaxCCE((28, 28), 10, [16, 16, 16])
 
     start = time()
-    history2 = mlp2.adam_train(x_train, y_train, 1e-3, 1000, 0.9, 0.999, 1e-7, 32, x_test, y_test)
+    history2 = mlp2.adam_train(x_train, y_train, 1e-3, 1000, 0.9, 0.999, 1e-8, 32, x_test, y_test)
     end = time()
 
     stop = (np.argmax(history2['test_accuracy']), max(history2['test_accuracy']))
@@ -154,7 +154,7 @@ for trial in range(1, 4):
     mlp3 = LeakyReLUSoftmaxCCE((28, 28), 10, [16, 16, 16])
 
     start = time()
-    history3 = mlp3.adam_train(x_train, y_train, 1e-5, 1000, 0.9, 0.999, 1e-7, 32, x_test, y_test)
+    history3 = mlp3.adam_train(x_train, y_train, 1e-5, 1000, 0.9, 0.999, 1e-8, 32, x_test, y_test)
     end = time()
 
     stop = (np.argmax(history3['test_accuracy']), max(history3['test_accuracy']))
