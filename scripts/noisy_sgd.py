@@ -65,7 +65,7 @@ for trial in range(1, 21):
 
     lines.append(f'Maximal Test Accuracy is reached after epoch {stop[0]} ({round(100*stop[1], 3)}%)')
 
-    mlp2 = LeakyReLUSoftmaxCCE((28, 28), 10, [50 for _ in range(20)]])
+    mlp2 = LeakyReLUSoftmaxCCE((28, 28), 10, [50 for _ in range(20)])
 
     start = time()
     history2 = mlp2.sgd_train(x_train, y_train, 1e-2, 200, 32, x_test, y_test)

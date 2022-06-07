@@ -1,0 +1,1 @@
+The maximal test accuracy of 87.27000000000001% is achieved with a parameter of 0.95 after 51 epochs.
