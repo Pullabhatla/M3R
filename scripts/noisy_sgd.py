@@ -19,7 +19,7 @@ for trial in range(1, 21):
     mlp1 = LeakyReLUSoftmaxCCE((28, 28), 10, [50 for _ in range(20)])
 
     start = time()
-    history1 = mlp1.noisy_sgd_train(x_train, y_train, 1e-2, 200, 32, 0.55, x_test, y_test)
+    history1 = mlp1.noisy_sgd_train(x_train, y_train, 1e-4, 200, 32, 0.55, x_test, y_test)
     end = time()
 
     stop = (np.argmax(history1['test_accuracy']), max(history1['test_accuracy']))
@@ -68,7 +68,7 @@ for trial in range(1, 21):
     mlp2 = LeakyReLUSoftmaxCCE((28, 28), 10, [50 for _ in range(20)])
 
     start = time()
-    history2 = mlp2.sgd_train(x_train, y_train, 1e-2, 200, 32, x_test, y_test)
+    history2 = mlp2.sgd_train(x_train, y_train, 1e-4, 200, 32, x_test, y_test)
     end = time()
 
     stop = (np.argmax(history2['test_accuracy']), max(history2['test_accuracy']))

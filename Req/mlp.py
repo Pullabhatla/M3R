@@ -633,3 +633,52 @@ class LeakyReLUSoftmaxCCE(MLP):
             history['test_loss'].append(self.loss(x_test, y_test))
 
         return history
+    
+    def elastic_net_train(self, x_train, y_train, learning_rate, epochs, batch_size,
+                          l1_penalty, l2_penalty, x_test, y_test):
+        layers = self.num_hidden_layers
+        history = {'train_accuracy': [self.accuracy(x_train, y_train)],
+                   'train_loss': [self.loss(x_train, y_train)],
+                   'test_accuracy': [self.accuracy(x_test, y_test)],
+                   'test_loss': [self.loss(x_test, y_test)]}
+        n = y_train.shape[0]
+        indices = np.arange(n)
+        for _ in range(epochs):
+            np.random.shuffle(indices)
+            batch_indices = []
+            for i in range(0, n, batch_size):
+                if i + batch_size <= n:
+                    batch_indices.append(indices[i:i+batch_size])
+                else:
+                    batch_indices.append(indices[i:])
+            batches = [(x_train[idx], y_train[idx])
+                       for idx in batch_indices]
+
+            for X, Y in batches:
+                N = len(X)
+                nabla_W = [None for W in self.weights]
+                nabla_b = [None for b in self.biases]
+                pre_act, post_act = self.forward_pass(X)
+
+                delta = post_act[-1] - Y
+
+                nabla_W[-1] = (post_act[-2].T@delta)/N
+                nabla_b[-1] = delta.mean(axis=0)
+
+                for i in range(2, layers+2):
+                    delta = (np.where(pre_act[-i] >= 0, 1, 0.01)
+                             * (delta@self.weights[-i+1].T))
+                    nabla_W[-i] = (post_act[-i-1].T@delta)/N
+                    nabla_b[-i] = delta.mean(axis=0)
+
+                self.weights = [W - learning_rate*(nW+l1_penalty*np.sign(W)+2*l2_penalty*W) for W, nW
+                                in zip(self.weights, nabla_W)]
+                self.biases = [b - learning_rate*nb for b, nb
+                               in zip(self.biases, nabla_b)]
+
+            history['train_accuracy'].append(self.accuracy(x_train, y_train))
+            history['train_loss'].append(self.loss(x_train, y_train))
+            history['test_accuracy'].append(self.accuracy(x_test, y_test))
+            history['test_loss'].append(self.loss(x_test, y_test))
+
+        return history
