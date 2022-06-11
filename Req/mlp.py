@@ -17,6 +17,9 @@ class MLP:
         self.weights.append(np.random.randn(i, j)*np.sqrt(2/(i+j)))
         self.biases.append(np.zeros(out_shape))
 
+        self.weights = np.array(self.weights)
+        self.biases = np.array(self.biases)
+        
         self.layer_activation = layer_activation
         self.output_activation = output_activation
 

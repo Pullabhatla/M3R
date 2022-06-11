@@ -4,8 +4,8 @@ from Req import LeakyReLUSoftmaxCCE, load_data
 
 (x_train, y_train), (x_test, y_test) = load_data()
 
-penalty1s = np.arange(0, 0.001, 0.0001)[:10]
-penalty2s = np.arange(0, 0.001, 0.001)[:10]
+penalty1s = np.arange(0, 0.0001, 0.00001)[:10]
+penalty2s = np.arange(0, 0.001, 0.0001)[:10]
 
 scores = np.empty((10, 10))
 for i in range(10):
@@ -18,7 +18,7 @@ for i in range(10):
 idx = np.unravel_index(np.argmax(scores), scores.shape)
 
 plt.contourf(penalty1s, penalty2s, scores)
-plt.xlabel(r'$\lamda{}_{1}$')
+plt.xlabel(r'$\lambda{}_{1}$')
 plt.ylabel(r'$\lambda{}_{2}$')
 plt.title('Elastic Net Regularisation Test Accuracy')
 plt.colorbar()

@@ -1,0 +1,6 @@
+------Learning Rate 1e-3------
+3136 seconds elapsed (3.14 seconds per epoch)
+60% Threshold passed after epoch 2 (62.4%)
+70% Threshold passed after epoch 5 (71.67%)
+80% Threshold passed after epoch 19 (80.1%)
+Maximal Test Accuracy is reached after epoch 305 (86.63%)
