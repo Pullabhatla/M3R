@@ -19,17 +19,24 @@ MathJax.Hub.Queue(function() {
 
 # M3R
 
-A suite of optimisers for an Multilayer Perceptron using ReLU layer activations, Softmax output activation, and Categorical Cross Entropy Loss. This repository was built for my Undergraduate Research Project at Imperial College London titled "".
+A suite of optimisers for an Multilayer Perceptron using Leaky ReLU layer activations, Softmax output activation, and Categorical Cross Entropy Loss. This repository was built for my Undergraduate Research Project at Imperial College London titled "A Computational Review of the Performance of a Suite of Optimisers for Multilayer Perceptron Supervised Learning".
 
-## Optimisers
-1. Batch Gradient Descent
-2. Mini-batch Gradient Descent
-3. Momentum
-4. Nesterov Accelerated Gradient
-5. Adaptive Gradient
-6. Root Mean Squared Propagation
-7. Adaptive Moments
-8. Noisy Mini-batch Gradient Descent 
-9. Weight Decay
-10. Weight Regularisation ($L_{2}$ and $L_{1}$)
+## Reported Optimisers
+1. Gradient Descent (Section 2.1): [`gd_train`](../M3R/Main/Req/mlp.py)
+2. Stochastic Gradient Descent (Section 2.2): [`sgd_train`](../M3R/Main/Req/mlp.py)
+3. Momentum (Section 2.3): [`momentum_sgd_train`](../M3R/Main/Req/mlp.py)
+4. Nesterov Accelerated Gradient (Section 2.4): [`nesterov_sgd_train`](../M3R/Main/Req/mlp.py)
+5. Adaptive Gradient (Section 2.5): [`adagrad_train`](../M3R/Main/Req/mlp.py)
+6. Root Mean Squared Propagation (Section 2.6): [`rmsprop_train`](../M3R/Main/Req/mlp.py)
+7. Adaptive Moments (Section 2.7): [`adam_train`](../M3R/Main/Req/mlp.py)
+8. Noisy Stochastic Gradient Descent (Section 2.8): [`noisy_sgd_train`](../M3R/Main/Req/mlp.py)
+10. Elastic Net Weight Regularisation (Section 2.9): [`elastic_net_train`](../M3R/Main/Req/mlp.py)
+11. Carrillo Consensus Based Optimiser (Section 3): : [`carrillo_cbo`](../M3R/Main/Req/carrillo.py)
 
+## Unreported Optimisers
+1. Weight Decay: [`decay_train`](../M3R/Main/Req/mlp.py)
+2. $L_{1}$ Weight Regularistion: [`l1_regularise_train`](../M3R/Main/Req/mlp.py)
+3. $L_{2}$ Weight Regularistion: [`l2_regularise_train`](../M3R/Main/Req/mlp.py)
+4. Simple Majority Voting: [`simple_majority_voting`](../M3R/Main/Req/ensemble.py)
+5. Decorrelated Majority Voting: [`decorrelated_majority_voting`](../M3R/Main/Req/ensemble.py)
+6. Weighted Voting: [`weighted_voting`](../M3R/Main/Req/ensemble.py)

@@ -1,5 +1,4 @@
-------Learning Rate 1e-3------
-39664 seconds elapsed (3.97 seconds per iteration)
+39664 seconds elapsed (1.98 seconds per iteration)
 60% Threshold passed after iteration 7941 (60.58%)
 70% Threshold not passed
 80% Threshold not passed

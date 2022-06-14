@@ -41,8 +41,7 @@ for i, a in enumerate(history['test_accuracy']):
         thresh80 = (i, a)
         break
 
-lines.append('------Learning Rate 1e-3------')
-lines.append(f'{round(end-start)} seconds elapsed ({round((end-start)/10000, 2)} seconds per iteration)')
+lines.append(f'{round(end-start)} seconds elapsed ({round((end-start)/20000, 2)} seconds per iteration)')
 if thresh60 is not None:
     lines.append(f'60% Threshold passed after iteration {thresh60[0]} ({round(100*thresh60[1], 3)}%)')
     plt.axvline(thresh60[0], linestyle='--', color='r', label='60% threshold')
